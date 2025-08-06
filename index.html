@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 개발 타이쿤</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 2D 게임을 위한 스크립트 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- 3D 렌더링 영역 -->
+        <div id="game-canvas"></div>
+        
+        <!-- UI 영역 -->
+        <div id="ui-container">
+            <!-- 메인 메뉴 -->
+            <div id="main-menu" class="panel">
+                <h1>게임 개발 타이쿤</h1>
+                <button id="new-game-btn" class="btn-primary" onclick="window.gameManager.showNewGameDialog()" style="position: relative; z-index: 1000; pointer-events: auto;">새 게임</button>
+                <button id="load-game-btn" class="btn-secondary">불러오기</button>
+                <button id="options-btn" class="btn-secondary">설정</button>
+                <div class="credits">Made with ❤️ by ai</div>
+            </div>
+            
+            <!-- 게임 UI -->
+            <div id="game-ui" class="panel hidden">
+                <!-- 상단 정보 바 -->
+                <div id="top-bar">
+                    <div id="studio-info">
+                        <span id="studio-name">새 스튜디오</span>
+                        <span id="money">￦10,000</span>
+                        <span id="reputation">평판: 0</span>
+                    </div>
+                    <div id="date-display">1년 1월 1주차 1일</div>
+                    <div id="game-speed">
+                        <button id="pause-btn" class="speed-btn">⏸</button>
+                        <button id="play-btn" class="speed-btn active">▶</button>
+                        <button id="fast-btn" class="speed-btn">⏩</button>
+                    </div>
+                </div>
+                
+                <!-- 메인 콘텐츠 영역 -->
+                <div id="main-content">
+                    <!-- 탭 메뉴 -->
+                    <div id="tab-menu">
+                        <button class="tab-btn active" data-tab="studio">스튜디오</button>
+                        <button class="tab-btn" data-tab="projects">프로젝트</button>
+                        <button class="tab-btn" data-tab="employees">직원</button>
+                        <button class="tab-btn" data-tab="research">연구</button>
+                        <button class="tab-btn" data-tab="marketing">마케팅</button>
+                        <button class="tab-btn" data-tab="finance">재정</button>
+                    </div>
+                    
+                    <!-- 탭 콘텐츠 -->
+                    <div id="tab-content">
+                        <!-- 스튜디오 탭 -->
+                        <div id="studio-tab" class="tab-panel active">
+                            <h2>내 스튜디오</h2>
+                            <div class="studio-overview">
+                                <div class="studio-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">직원 수:</span>
+                                        <span id="employee-count">1</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">완료된 게임:</span>
+                                        <span id="completed-games">0</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">사무실 크기:</span>
+                                        <span id="office-size">소형</span>
+                                    </div>
+                                </div>
+                                <div class="studio-actions">
+                                    <button id="upgrade-office-btn" class="btn-secondary">사무실 업그레이드</button>
+                                    <button id="rename-studio-btn" class="btn-secondary">스튜디오 이름 변경</button>
+                                </div>
+                            </div>
+                            <div class="recent-games">
+                                <h3>최근 출시 게임</h3>
+                                <div id="recent-games-list" class="game-list">
+                                    <div class="empty-message">아직 출시한 게임이 없습니다.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 프로젝트 탭 -->
+                        <div id="projects-tab" class="tab-panel">
+                            <h2>프로젝트 관리</h2>
+                            <div id="current-project">
+                                <h3>현재 프로젝트</h3>
+                                <div id="no-project" class="empty-message">진행 중인 프로젝트가 없습니다.</div>
+                                <div id="project-details" class="hidden">
+                                    <div class="project-header">
+                                        <span id="project-title" class="project-title">게임 제목</span>
+                                        <span id="project-genre" class="project-genre">장르: 액션</span>
+                                        <span id="project-platform" class="project-platform">플랫폼: PC</span>
+                                    </div>
+                                    <div class="project-progress">
+                                        <div class="progress-label">
+                                            <span id="project-stage">기획 단계</span>
+                                            <span id="progress-percent">0%</span>
+                                        </div>
+                                        <div class="progress-bar">
+                                            <div id="progress-fill"></div>
+                                        </div>
+                                    </div>
+                                    <div class="project-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-label">품질:</span>
+                                            <span id="project-quality">0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">비용:</span>
+                                            <span id="project-budget">￦0</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-label">마케팅:</span>
+                                            <span id="project-marketing">0</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="new-project-btn" class="btn-primary">새 프로젝트 시작</button>
+                        </div>
+                        
+                        <!-- 직원 탭 -->
+                        <div id="employees-tab" class="tab-panel">
+                            <h2>직원 관리</h2>
+                            <div class="employee-section">
+                                <h3>내 직원</h3>
+                                <div id="employee-list" class="employee-list">
+                                    <div class="empty-message">직원이 없습니다.</div>
+                                </div>
+                            </div>
+                            <div class="employee-section">
+                                <h3>채용 후보자</h3>
+                                <div id="candidate-list" class="candidate-list">
+                                    <div class="empty-message">현재 채용 가능한 후보자가 없습니다.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 연구 탭 -->
+                        <div id="research-tab" class="tab-panel">
+                            <h2>기술 연구</h2>
+                            <div class="research-grid">
+                                <div class="research-item" data-tech="engine">
+                                    <h3>게임 엔진</h3>
+                                    <div class="research-level">레벨 1</div>
+                                    <div class="research-desc">더 나은 게임 엔진을 개발하여 게임 품질을 향상시킵니다.</div>
+                                    <button class="research-btn btn-secondary">연구 (￦5,000)</button>
+                                </div>
+                                <div class="research-item" data-tech="graphics">
+                                    <h3>그래픽 기술</h3>
+                                    <div class="research-level">레벨 1</div>
+                                    <div class="research-desc">더 나은 그래픽 기술을 개발하여 게임의 시각적 품질을 향상시킵니다.</div>
+                                    <button class="research-btn btn-secondary">연구 (￦5,000)</button>
+                                </div>
+                                <div class="research-item" data-tech="sound">
+                                    <h3>사운드 기술</h3>
+                                    <div class="research-level">레벨 1</div>
+                                    <div class="research-desc">더 나은 사운드 기술을 개발하여 게임의 오디오 품질을 향상시킵니다.</div>
+                                    <button class="research-btn btn-secondary">연구 (￦5,000)</button>
+                                </div>
+                                <div class="research-item" data-tech="ai">
+                                    <h3>AI 기술</h3>
+                                    <div class="research-level">레벨 1</div>
+                                    <div class="research-desc">더 나은 AI 기술을 개발하여 게임의 NPC 행동을 향상시킵니다.</div>
+                                    <button class="research-btn btn-secondary">연구 (￦5,000)</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 마케팅 탭 -->
+                        <div id="marketing-tab" class="tab-panel">
+                            <h2>마케팅 관리</h2>
+                            <div id="marketing-options">
+                                <div class="marketing-option">
+                                    <h3>소셜 미디어 캠페인</h3>
+                                    <p>소셜 미디어를 통해 게임을 홍보합니다.</p>
+                                    <button class="marketing-btn btn-secondary" data-type="social">캠페인 시작 (￦2,000)</button>
+                                </div>
+                                <div class="marketing-option">
+                                    <h3>온라인 광고</h3>
+                                    <p>온라인 광고를 통해 게임을 홍보합니다.</p>
+                                    <button class="marketing-btn btn-secondary" data-type="online">캠페인 시작 (￦5,000)</button>
+                                </div>
+                                <div class="marketing-option">
+                                    <h3>게임 컨벤션 참가</h3>
+                                    <p>게임 컨벤션에 참가하여 게임을 홍보합니다.</p>
+                                    <button class="marketing-btn btn-secondary" data-type="convention">캠페인 시작 (￦10,000)</button>
+                                </div>
+                                <div class="marketing-option">
+                                    <h3>TV 광고</h3>
+                                    <p>TV 광고를 통해 게임을 홍보합니다.</p>
+                                    <button class="marketing-btn btn-secondary" data-type="tv">캠페인 시작 (￦20,000)</button>
+                                </div>
+                            </div>
+                            <div id="active-campaigns">
+                                <h3>진행 중인 캠페인</h3>
+                                <div id="campaign-list">
+                                    <div class="empty-message">진행 중인 캠페인이 없습니다.</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 재정 탭 -->
+                        <div id="finance-tab" class="tab-panel">
+                            <h2>재정 관리</h2>
+                            <div class="finance-overview">
+                                <div class="finance-stat">
+                                    <span class="stat-label">현재 자금:</span>
+                                    <span id="current-money">￦10,000</span>
+                                </div>
+                                <div class="finance-stat">
+                                    <span class="stat-label">주간 지출:</span>
+                                    <span id="weekly-expenses">￦0</span>
+                                </div>
+                                <div class="finance-stat">
+                                    <span class="stat-label">총 수익:</span>
+                                    <span id="total-revenue">￦0</span>
+                                </div>
+                            </div>
+                            <div class="finance-chart-container">
+                                <canvas id="finance-chart"></canvas>
+                            </div>
+                            <div class="finance-actions">
+                                <button id="take-loan-btn" class="btn-secondary">대출 받기</button>
+                                <button id="repay-loan-btn" class="btn-secondary" disabled>대출 상환</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 팝업 다이얼로그 -->
+            <div id="dialog-overlay" class="hidden">
+                <div id="dialog">
+                    <div id="dialog-header">
+                        <h3 id="dialog-title">제목</h3>
+                        <button id="dialog-close">×</button>
+                    </div>
+                    <div id="dialog-content"></div>
+                    <div id="dialog-buttons">
+                        <button id="dialog-cancel" class="btn-secondary">취소</button>
+                        <button id="dialog-confirm" class="btn-primary">확인</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 알림 -->
+            <div id="notification-container"></div>
+        </div>
+    </div>
+    
+    <!-- 스크립트 로드 -->
+    <script src="js/game-data.js"></script>
+    <script src="js/two-d-manager.js"></script>
+    <script src="js/game-manager.js"></script>
+    <script src="js/ui-manager.js"></script>
+    <script src="js/project-manager.js"></script>
+    <script src="js/employee-manager.js"></script>
+    <script src="js/research-manager.js"></script>
+    <script src="js/marketing-manager.js"></script>
+    <script src="js/finance-manager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

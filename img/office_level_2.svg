@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <!-- 배경 -->
+  <rect width="800" height="600" fill="#f8f8f8"/>
+  
+  <!-- 바닥 -->
+  <rect width="800" height="600" fill="#e8e8e8"/>
+  
+  <!-- 벽 -->
+  <rect width="800" height="200" fill="#d8d8d8"/>
+  
+  <!-- 창문 -->
+  <rect x="50" y="30" width="120" height="120" fill="#b8e0ff"/>
+  <rect x="230" y="30" width="120" height="120" fill="#b8e0ff"/>
+  <rect x="410" y="30" width="120" height="120" fill="#b8e0ff"/>
+  <rect x="590" y="30" width="120" height="120" fill="#b8e0ff"/>
+  
+  <!-- 창문 프레임 -->
+  <rect x="50" y="30" width="120" height="120" fill="none" stroke="#707070" stroke-width="5"/>
+  <rect x="230" y="30" width="120" height="120" fill="none" stroke="#707070" stroke-width="5"/>
+  <rect x="410" y="30" width="120" height="120" fill="none" stroke="#707070" stroke-width="5"/>
+  <rect x="590" y="30" width="120" height="120" fill="none" stroke="#707070" stroke-width="5"/>
+  
+  <!-- 책상 (더 고급스러운 색상) -->
+  <rect x="100" y="250" width="150" height="80" fill="#a05a2c" rx="5" ry="5"/>
+  <rect x="350" y="250" width="150" height="80" fill="#a05a2c" rx="5" ry="5"/>
+  <rect x="600" y="250" width="150" height="80" fill="#a05a2c" rx="5" ry="5"/>
+  <rect x="100" y="400" width="150" height="80" fill="#a05a2c" rx="5" ry="5"/>
+  <rect x="350" y="400" width="150" height="80" fill="#a05a2c" rx="5" ry="5"/>
+  <rect x="600" y="400" width="150" height="80" fill="#a05a2c" rx="5" ry="5"/>
+  
+  <!-- 컴퓨터 (더 현대적인 모니터) -->
+  <rect x="135" y="230" width="80" height="50" fill="#222" rx="2" ry="2"/>
+  <rect x="385" y="230" width="80" height="50" fill="#222" rx="2" ry="2"/>
+  <rect x="635" y="230" width="80" height="50" fill="#222" rx="2" ry="2"/>
+  <rect x="135" y="380" width="80" height="50" fill="#222" rx="2" ry="2"/>
+  <rect x="385" y="380" width="80" height="50" fill="#222" rx="2" ry="2"/>
+  <rect x="635" y="380" width="80" height="50" fill="#222" rx="2" ry="2"/>
+  
+  <!-- 의자 (더 편안해 보이는) -->
+  <rect x="135" y="340" width="80" height="30" fill="#333" rx="8" ry="8"/>
+  <rect x="385" y="340" width="80" height="30" fill="#333" rx="8" ry="8"/>
+  <rect x="635" y="340" width="80" height="30" fill="#333" rx="8" ry="8"/>
+  <rect x="135" y="490" width="80" height="30" fill="#333" rx="8" ry="8"/>
+  <rect x="385" y="490" width="80" height="30" fill="#333" rx="8" ry="8"/>
+  <rect x="635" y="490" width="80" height="30" fill="#333" rx="8" ry="8"/>
+  
+  <!-- 장식 식물 -->
+  <circle cx="50" cy="500" r="30" fill="#2e8b57"/>
+  <circle cx="750" cy="500" r="30" fill="#2e8b57"/>
+  
+  <!-- 회의 테이블 -->
+  <ellipse cx="400" cy="550" rx="150" ry="40" fill="#a05a2c"/>
+</svg>
